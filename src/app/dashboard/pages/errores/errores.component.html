@@ -1,4 +1,32 @@
-<h1>ERRORS</h1>
+<h1>GESTIONAR ERRORES DE SOLICITUDES</h1>
+<p>Hay dos formas en que una solicitud HTTP puede fallar:</p>
+<ul>
+    <li>Un error de red o de conexión puede impedir que la solicitud llegue al servidor backend.</li>
+    <li>El backend puede recibir la solicitud pero no puede procesarla y devolver una respuesta de error.</li>
+</ul>
+
+<p>
+    <span class="bolder">HttpClient</span> captura ambos tipos de errores en 
+    <span  class="bolder">HttpErrorResponse</span>(Respuesta que representa un error o una falla ). 
+    
+    Podemos inspeccionar la respuesta para identificar la causa del error y la acción adecuada para manejar el error.
+</p>
+<h2>Codigos de estado</h2>
+<ul>
+    <li>Los errores de red o conexión tienen un código de estado de 0 </li>
+    <li>Los errores de backend tienen el código de estado de error devuelto por el backend</li>
+</ul>
+<h2>Obtener detalles del error</h2>
+<pre class="lang- prettyprint">      
+  <code class="animated fadeIn">
+    <span class="kwd">private</span>
+    <span class="pln"> handleError</span>
+    <span class="pun"></span>
+</code>
+</pre>
+
+
+
 <button (click)="obtenerDatos()">Obtener datos</button>
 
 <div>
