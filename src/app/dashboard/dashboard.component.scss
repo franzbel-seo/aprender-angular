@@ -1,0 +1,17 @@
+// .side-menu{
+//     background-color: red;
+// }
+// .main-content{
+//     background-color: orange;
+// }
+.contenedor{
+    display: flex;
+    flex-direction: row;
+    .side-menu{
+        flex-basis: 20%;
+        min-height: 100vh;
+    }
+    .main-content{
+        flex-basis: 80%;
+    }
+}

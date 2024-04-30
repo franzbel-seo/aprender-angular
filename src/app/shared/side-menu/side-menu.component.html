@@ -1,0 +1,8 @@
+<div class="contenedor-menu">
+    @for (item of menuItems; track $index) {
+        <a 
+        [routerLink]="[item.path]"
+        [routerLinkActive]="['active']"
+        > {{item.title}}</a>
+    }
+</div>

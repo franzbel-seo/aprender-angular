@@ -1,0 +1,30 @@
+<h1>ERRORS</h1>
+<button (click)="obtenerDatos()">Obtener datos</button>
+
+<div>
+<pre>
+{{postJson | json}}
+</pre>
+    
+</div>
+
+<button (click)="obtenernotFound()">Articulo no encontrado</button>
+<div>
+<pre>
+{{notFound | json}}
+</pre>
+</div>
+
+<button (click)="getNotFoundWithHandler()">Manejar error</button>
+<div>
+<pre>
+{{notFoundWithHandler | json}}
+</pre>
+</div>
+
+<button (click)="nowPlayingMovies()">NowPlaying</button>
+<div>
+<pre>
+{{nowPlaying | json}}
+</pre>
+</div>

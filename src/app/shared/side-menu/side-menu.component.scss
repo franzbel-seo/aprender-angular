@@ -1,0 +1,19 @@
+.contenedor-menu{
+    background-color: #111;
+    height: 100%;
+    padding: 15px;
+    a{
+        color: #818181;
+        text-decoration: none;
+        padding: 8px;
+        text-transform: uppercase;
+        display: block;
+        font-size: 1.2rem;
+    }
+    a.active{
+        color: orange;
+    }
+    a:hover{
+        color: orange
+    }
+}
