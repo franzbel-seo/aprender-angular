@@ -1,8 +1,10 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from '../interfaces/post';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, delay, throwError } from 'rxjs';
 import { NowPlaying } from '../interfaces/now-playing';
+import { Movie } from '../interfaces/movie';
+import { ErrorMessage } from '../interfaces/error';
 
 @Injectable({
   providedIn: 'root'
@@ -10,35 +12,85 @@ import { NowPlaying } from '../interfaces/now-playing';
 export class ErrorsService {
   API_URL = 'https://api.themoviedb.org/3';
   API_KEY = 'dd641f8b79bd49b4d2d556657cd3d233'
-  authorization = '';
+  AUTHORIZATION = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3NmZiMzUzYjEwYTVhMTA4MjY2MjY3NDU0NWE2MGM5MCIsInN1YiI6IjY2MzA2MGFhOTVjMGFmMDEyYmRhYTdlYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.TTnvjw6o-ETfJV1UNtQCO16Xlg98Bk8dB-pBq2DhKWA';
 
   constructor(private http: HttpClient) { }
-  getAPost(): Observable<Post> {
-    return this.http.get<Post>('https://jsonplaceholder.typicode.com/posts/1')
-  }
-  notFound(): Observable<Post> {
-    return this.http.get<Post>('https://jsonplaceholder.typicode.com/posts/999999')
-  }
-  
-
-  notFoundWithHandler(): Observable<Post> {
-    return this.http.get<Post>('https://jsonplaceholder.typicode.com/posts/999999').pipe(
-      catchError( this.manejarError)
+  movieDetailRandomWithHandler(movieId: number){
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', this.AUTHORIZATION)
+    return this.http.get<Movie>( this.API_URL + '/movie/'+ movieId, {headers}).pipe(
+      delay(1500),
+      catchError(this.manejarError),
     )
   }
+
+  movieDetailRandomBE(movieId: number){
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', this.AUTHORIZATION)
+    return this.http.get<Movie>( this.API_URL + '/movie/'+ movieId, {headers}).pipe(
+      catchError(this.manejarErrorBE),
+    )
+  }
+
+  movieDetail200ok(): Observable<Movie>{
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', this.AUTHORIZATION)
+    return this.http.get<Movie>( this.API_URL + '/movie/550', {headers})
+  }
+  movieDetail404NotFound(): Observable<Movie>{
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', this.AUTHORIZATION)
+    return this.http.get<Movie>( this.API_URL + '/movie/10000000000', {headers}).pipe(
+      catchError(this.manejarError)
+    )
+  }
+  movieDetail401Unauthorized(): Observable<Movie>{
+    return this.http.get<Movie>( this.API_URL + '/movie/550').pipe(
+      catchError(this.manejarError)
+    )
+  }
+  movieDetail404NotFoundWithoutHandler(): Observable<Movie>{
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', this.AUTHORIZATION)
+    return this.http.get<Movie>( this.API_URL + '/movie/10000000000', {headers})
+  }
+  movieDetail401UnauthorizedWithoutHandler(): Observable<Movie>{
+    return this.http.get<Movie>( this.API_URL + '/movie/550')
+  }
+
+   
   private manejarError(error: HttpErrorResponse) {
+    // ERROR DE RED O CONEXION
     if( error.status === 0 ){
-      console.error('An error occurred:', error.error)
+      console.log('El codigo de estado es:', error.status )
+      console.error('El objeto error es:', error.error);
+    // ERROR DE BACKEND
     }else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
-      console.error(`Backend returned code ${error.status}, body was: `, error.error);
+      console.log('El codigo de estado retornado por el backend', error.status )
+      console.error('El objeto error retornado por el backend', error.error);
     }
-    return throwError(() => new Error('Something bad happened; please try again later.'))
+    return throwError(() => new Error('Algo malo sucedio; Por favor, inténtelo de nuevo más tarde.'))
   }
-  getMovies(): Observable<NowPlaying>{
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZDY0MWY4Yjc5YmQ0OWI0ZDJkNTU2NjU3Y2QzZDIzMyIsInN1YiI6IjY2MzA2MGFhOTVjMGFmMDEyYmRhYTdlYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.B7p7x0GGxjY1u7GB7H7JQS1fvviPyx9OS8V9jmpr21c')
-    return this.http.get<NowPlaying>('https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_release_type=2|3&release_date.gte={min_date}&release_date.lte={max_date}', {headers})
+
+  private manejarErrorBE(error: HttpErrorResponse) {
+    // ERROR DE RED O CONEXION
+    if( error.status === 0 ){
+      let errorFE: ErrorMessage = {
+        status_code: 0,
+        status_message: 'Error de red o conexión',
+        success: false
+      }
+      return throwError(() => errorFE)
+    // ERROR DE BACKEND
+    }else {
+      let errorBE: ErrorMessage = {
+        status_code: error.error.status_code,
+        status_message: error.error.status_message,
+        success: error.error.success
+      }
+      return throwError(() => errorBE)
+    }
+    
   }
+  
 }

@@ -1,4 +1,5 @@
 <h1>GESTIONAR ERRORES DE SOLICITUDES</h1>
+<h2>Cuando fracasa una solicitud</h2>
 <p>Hay dos formas en que una solicitud HTTP puede fallar:</p>
 <ul>
     <li>Un error de red o de conexión puede impedir que la solicitud llegue al servidor backend.</li>
@@ -6,53 +7,143 @@
 </ul>
 
 <p>
-    <span class="bolder">HttpClient</span> captura ambos tipos de errores en 
-    <span  class="bolder">HttpErrorResponse</span>(Respuesta que representa un error o una falla ). 
-    
-    Podemos inspeccionar la respuesta para identificar la causa del error y la acción adecuada para manejar el error.
+    <span class="bolder">HttpClient</span> captura ambos tipos de errores en un objeto
+    <span class="bolder">HttpErrorResponse</span>.
 </p>
-<h2>Codigos de estado</h2>
+<h3>Cuando es un error de red o conexion </h3>
 <ul>
-    <li>Los errores de red o conexión tienen un código de estado de 0 </li>
-    <li>Los errores de backend tienen el código de estado de error devuelto por el backend</li>
+    <li>El valor de la propiedad <span class="bolder">status</span> del objeto <span
+            class="bolder">HttpErrorResponse</span> es 0</li>
+    <li>El valor de la propiedad <span class="bolder">error</span> es un objeto de tipo ProgressEvent</li>
 </ul>
-<h2>Obtener detalles del error</h2>
-<pre class="lang- prettyprint">      
-  <code class="animated fadeIn">
-    <span class="kwd">private</span>
-    <span class="pln"> handleError</span>
-    <span class="pun"></span>
-</code>
-</pre>
-
-
-
-<button (click)="obtenerDatos()">Obtener datos</button>
-
-<div>
+<div class="contenedor-respuesta">
 <pre>
-{{postJson | json}}
+{{errorFront | json}}
 </pre>
-    
-</div>
+</div>    
 
-<button (click)="obtenernotFound()">Articulo no encontrado</button>
-<div>
+<h3>Cuando el servidor rechaza la solicitud</h3>
+<ul>
+    <li>El valor de la propiedad <span class="bolder">status</span> del objeto <span
+            class="bolder">HttpErrorResponse</span> es determinado por el backend (401 Not Authorized, 404 Not Found,
+        ...)</li>
+    <li>El valor de la propiedad <span class="bolder">error</span> es un objeto generado por el backend</li>
+</ul>
+<div class="contenedor-respuesta">
 <pre>
-{{notFound | json}}
+{{errorBack | json}}
 </pre>
 </div>
 
-<button (click)="getNotFoundWithHandler()">Manejar error</button>
+
+
+
+
+
+
+<h3>Una solicitus exitosa</h3>
+<button (click)="movieDetail200ok()">movieDetail200ok</button>
+<div class="contenedor-respuesta">
+    @if ( movie200ok ) {
+<pre>
+{{movie200ok | json}}
+</pre>
+    }
+</div>
+
+
+
+
+
+<h3>Una solicitud fallida - Con manejador de error</h3>
+<button (click)="movieDetail401Unauthorized()">movieDetail401Unauthorized</button>
 <div>
 <pre>
-{{notFoundWithHandler | json}}
+{{movie401Unauthorized}}
 </pre>
 </div>
 
-<button (click)="nowPlayingMovies()">NowPlaying</button>
-<div>
+<h3>Una solicitud fallida - Con manejador de error</h3>
+<button (click)="movieDetail404NotFound()">movieDetail404NotFound()</button>
+<div class="contenedor-respuesta">
 <pre>
-{{nowPlaying | json}}
+{{movie404NotFound}}
 </pre>
+</div>
+
+<h3>Una solicitud fallida - Sin manejador de error</h3>
+<button (click)="movieDetail401UnauthorizedWithoutHandler()">movieDetail401UnauthorizedWithoutHandler</button>
+<div class="contenedor-respuesta">
+<pre>
+{{movie401UnauthorizedWithoutHandler | json}}
+</pre>
+</div>
+
+
+<h3>Una solicitud fallida - Sin manejador de error</h3>
+<button (click)="movieDetail404NotFoundWithoutHandler()">movieDetail404NotFoundWithoutHandler</button>
+<div class="contenedor-respuesta">
+<pre>
+{{movie404NotFoundWithoutHandler | json}}
+</pre>
+</div>
+
+<h2>FLUJO CUANDO CONTAMOS CON UN MANEJADOR</h2>
+<ul>
+    <li>Cuando tenemos un manejador de error</li>
+    <li>Para los casos de error de red o conexión</li>
+    <li>Para los errores de backend</li>
+</ul>
+<h3>EL SERVICIO</h3>
+<p>Podemos utilizar la informacion del objeto para logs</p>
+<img src="/assets/servicio.jpg" alt="">
+
+<p><span class="italic">Notas:</span></p>
+<p><span class="bolder">catchError (Rxjs): </span>Es un operador que captura un error y se lo pasa al manejador de error
+</p>
+<p><span class="bolder">throwError (Rxjs): </span>Crea un observable que emite un error</p>
+<p><span class="bolder">new Error (JS/TS): </span>Crea un objeto error</p> que tiene las propiedades <span class="bolder">message</span> y <span class="bolder">name</span>.
+<p>El manejador de error puede ser utilizado por varios métodos del servicio</p>
+
+
+<h3>LA CLASE DEL COMPONENTE</h3>
+<img src="/assets/componente.jpg" alt="">
+<h3>LA PLANTILLA DEL COMPONENTE</h3>
+<img src="/assets/plantilla.jpg" alt="">
+<h3>TEST</h3>
+<button (click)="movieDetailRandomWithHandler()">Solicitud exito - fracaso</button>
+<div class="salida-random">
+        @if (mostrarDatos) {
+            <div>{{data.original_title}}</div>
+        }@else if(mostrarError){
+            <div>{{error}}</div>
+        }@else{
+            <div>CARGANDO...</div>
+        }
+</div>
+
+<h2>FLUJO CUANDO QUEREMOS MOSTRAR EL MENSAJE DE BACKEND</h2>
+<h3>INTERFACE</h3>
+<img src="/assets/interface.jpg" alt="">
+<h3>EL SERVICIO</h3>
+<img src="/assets/servicioBE.jpg" alt="">
+<h3>LA CLASE DEL COMPONENTE</h3>
+<img src="/assets/componenteBE.jpg" alt="">
+<h3>LA PLANTILLA DEL COMPONENTE</h3>
+<img src="/assets/plantillaBE.jpg" alt="">
+
+<h3>TEST</h3>
+<button (click)="movieDetailRandomBE()">Solicitud exito - fracaso</button>
+<div class="salida-random">
+        @if (mostrarDatosBE) {
+            <div>{{dataBE.original_title}}</div>
+        }@else if(mostrarErrorBE){
+            <div class="contenedor-respuesta">
+                <pre>{{errorBE | json}}</pre>
+            </div>
+            
+            <div>{{errorBE.status_message}}</div>
+        }@else{
+            <div>CARGANDO...</div>
+        }
 </div>

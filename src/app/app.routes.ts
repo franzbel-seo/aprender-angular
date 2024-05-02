@@ -20,6 +20,11 @@ export const routes: Routes = [
                 title: 'Errors',
                 loadComponent: () => import('./dashboard/pages/errores/errores.component').then( c => c.ErroresComponent)
             },
+            { 
+                path: 'interceptors',
+                title: 'Interceptors',
+                loadComponent: () => import('./dashboard/pages/interceptors/interceptors.component').then( c => c.InterceptorsComponent)
+            },
             {
                 path: '',
                 redirectTo: 'control-flow',
