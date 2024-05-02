@@ -1,10 +1,35 @@
-<h1>INTERCEPTORES</h1>
-<ul>
+<div class="contenedor">
+  <h1>INTERCEPTORES</h1>
+  <p>Los interceptores permiten modificar las solicitudes HTTP y las respuestas del servidor</p>
+  <ul>
     <li>Los interceptores, permiten interceptar y manipular solicitiudes HTTP desde nuestra aplicación al servidor</li>
     <li>Los mismos interceptores tambien pueden interceptar y manipular las respuestas del servidor a nuestra aplicación.</li>
-</ul>
+    <li>Si tenemos varios interceptores, estos forman una cadena de interceptores donde cada interceptor procesa la solicitud o respuesta
+      antes de reenviarla al siguiente interceptor de la cadena</li>
+  </ul>
 
-<h2>Un poco de ayuda</h2>
-<p><span class="bolder-red">ng g --help</span> </p>
-<pre> ng g interceptor [name]       Creates a new, generic interceptor definition in the given project.</pre>
-<h2>Creamos interceptores</h2>
+  <h2>Un poco de ayuda</h2>
+  <p><span class="bolder-red">ng g --help</span> </p>
+  <pre> ng g interceptor [name]       Creates a new, generic interceptor definition in the given project.</pre>
+
+  <p><span class="bolder-red">ng g interceptor --help</span> </p>
+  <pre>
+  Options:
+      --help         Shows a help message for this command in the console.                    [boolean]
+      --interactive  Enable interactive input prompts.                                        [boolean] [default: true]
+      -d, --dry-run  Run through and reports activity without writing out results.            [boolean] [default: false]
+      --defaults     Disable interactive input prompts for options with a default.            [boolean] [default: false]
+      --force        Force overwriting of existing files.                                     [boolean] [default: false]
+      --flat         When true (the default), creates files at the top level of the project.  [boolean] [default: true]
+      --functional   Creates the interceptor as a `HttpInterceptorFn`.                        [boolean] [default: true]
+      --project      The name of the project.                                                 [string]
+      --skip-tests   Do not create "spec.ts" test files for the new interceptor.              [boolean] [default: false]
+</pre>
+  <h2>Creamos interceptores</h2>
+</div>
+
+
+
+
+
+
