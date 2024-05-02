@@ -25,8 +25,13 @@
       --project      The name of the project.                                                 [string]
       --skip-tests   Do not create "spec.ts" test files for the new interceptor.              [boolean] [default: false]
 </pre>
-  <h2>Creamos interceptores</h2>
+  <h2>Como creamos interceptores</h2>
+  <p><span class="bolder-red">ng g interceptor interceptors/auth --functional --skip-tests</span> </p>
+  <p><span class="bolder-red">ng g interceptor interceptors/loggin --functional --skip-tests</span> </p>
+
+  <p>Para que estos interceptores realmente intercepten solicitudes, debe configurar HttpClient para usarlos.</p>
 </div>
+
 
 
 
