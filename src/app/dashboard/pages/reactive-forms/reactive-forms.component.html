@@ -1,0 +1,193 @@
+<h1>Formularios reactivos</h1>
+<h2>Bloques de consrtrucción fundamentales</h2>
+<table>
+  <thead>
+    <tr>
+      <th>FormGroup</th>
+      <th>FormControl</th>
+      <th>FormArray</th>
+      <th>FormRecord</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre>
+        class FormGroup... &#123;
+                  <span class="bolder italic orange">CONSTRUCTOR</span>
+                  constructor(...)
+                  <span class="italic bolder orange">PROPIEDADES</span>
+                  controls: ...;
+                  <span class="bolder italic orange">MÉTODOS</span>
+                  registerControl()
+                  addControl()
+                  removeControl()
+                  setControl()
+                  contains()
+                  setValue()
+                  patchValue()
+                  reset()
+                  getRawValue()
+        &#125;
+        </pre>
+      </td>
+      <td>
+        <pre>
+        class  FormControl... &#123;
+                  <span class="bolder italic orange">CONSTRUCTOR</span>
+                  constructor(...)
+                  <span class="italic bolder orange">PROPIEDADES</span>
+                  defaultValue: ...;
+                  <span class="bolder italic orange">MÉTODOS</span>
+                  setValue()
+                  patchValue()
+                  reset()
+                  getRawValue()
+                  registerOnChange()
+                  registerOnDisabledChange()
+        &#125;
+        </pre>
+      </td>
+      <td>
+        <pre>
+        class FormArray... &#123;
+                  <span class="bolder italic orange">CONSTRUCTOR</span>
+                  constructor(...)
+                  <span class="italic bolder orange">PROPIEDADES</span>
+                  length: number;
+                  <span class="bolder italic orange">MÉTODOS</span>
+                  at()
+                  push()
+                  insert()
+                  removeAt()
+                  setControl()
+                  setValue()
+                  patchValue()
+                  reset()
+                  getRawValue()
+                  clear()
+        &#125;
+        </pre>
+      </td>
+      <td>
+        <pre>
+        export class FormGroup... &#123;
+                  <span class="bolder italic orange">CONSTRUCTOR</span>
+                  constructor(...)
+                  <span class="italic bolder orange">PROPIEDADES</span>
+                  controls: ...;
+                  <span class="bolder italic orange">MÉTODOS</span>
+                  registerControl()
+                  addControl()
+                  removeControl()
+                  setControl()
+                  contains()
+                  setValue()
+                  patchValue()
+                  reset()
+                  getRawValue()
+        &#125;
+        </pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2> Módulo de formularios reactivos</h2>
+<p>Este módulo declara las directivas que se necesitan para usar formularios reactivos</p>
+<table>
+  <thead>
+    <tr>
+      <th>Directiva</th>
+      <th>Selectores</th>
+      <th>Descripción</th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+  <tr>
+    <td>FormArrayName</td>
+    <td>[formArrayName]</td>
+    <td>Sincroniza un FormArray anidado con un elemento DOM.</td>
+  </tr>
+  <tr>
+    <td>FormControlDirective</td>
+    <td>[formControl]</td>
+    <td>Sincroniza una instancia de FormControl independiente con un elemento de control de formulario.</td>
+  </tr>
+
+  <tr>
+    <td>FormGroupDirective</td>
+    <td>[formGroup]</td>
+    <td>Vincula un FormGroup o un FormRecord a un elemento DOM.</td>
+  </tr>
+  <tr>
+    <td>FormControlName</td>
+    <td>[formControlName]</td>
+    <td>Sincroniza un FormControl en un FormGroup existente con un elemento de control de formulario por nombre.</td>
+  </tr>
+  <tr>
+    <td>FormGroupName</td>
+    <td>[formGroupName]</td>
+    <td>Sincroniza un FormGroup o un FormRecord anidado con un elemento DOM.</td>
+  </tr>
+
+  </tbody>
+</table>
+<h3>Ejemplo</h3>
+<p>Creamos una propiedad llamada <span class="italic bolder">form</span> en la clase del componente y establecemos la propiedad
+a una nueva instancia  <span class="italic bolder">form group</span>. Para inicializar el <span class="italic bolder">form group</span>
+proporcionamos un  objeto de keys con nombre emparejadas con su control
+</p>
+<table>
+  <thead>
+    <tr>
+      <th>Clase del componente</th>
+      <th>Plantilla</th>
+      <th>Formulario</th>
+      <th>Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre>
+        import &#123;ReactiveFormsModule&#125; from "&#64;angular/forms";
+        &#64;Component(&#123;
+
+            imports: [ReactiveFormsModule],
+
+        &#125;)
+
+        form = new <span class="bolder">FormGroup</span>(&#123;
+          username: new FormControl(''),
+          password: new FormControl(''),
+        &#125;)
+        </pre>
+
+      </td>
+      <td>
+        <pre>
+          &#60;form [formGroup]="form"&#62;
+            &#60;p&#62;	&#60;input formControlName="username"&#62;&#60;/p&#62;
+            &#60;p&#62;	&#60;input formControlName="password"&#62;&#60;/p&#62;
+          &#60;/form&#62;
+        </pre>
+
+      </td>
+      <td>
+        <form [formGroup]="form">
+          <p><input formControlName="username"></p>
+          <p><input formControlName="password"></p>
+        </form>
+      </td>
+      <td>
+        {{
+          form.value | json
+        }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+

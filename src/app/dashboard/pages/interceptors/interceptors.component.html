@@ -1,11 +1,13 @@
 <div class="contenedor">
   <h1>INTERCEPTORES</h1>
-  <p>Los interceptores permiten modificar las solicitudes HTTP y las respuestas del servidor</p>
+  <p>Un interceptor es una funcion que es llamada por
+    <span class="bolder"> <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a></span>
+    cuando se realiza una solicitud. Los interceptores permiten modificar las solicitudes HTTP y las respuestas del servidor</p>
   <ul>
     <li>Los interceptores, permiten interceptar y manipular solicitiudes HTTP desde nuestra aplicación al servidor</li>
     <li>Los mismos interceptores tambien pueden interceptar y manipular las respuestas del servidor a nuestra aplicación.</li>
-    <li>Si tenemos varios interceptores, estos forman una cadena de interceptores donde cada interceptor procesa la solicitud o respuesta
-      antes de reenviarla al siguiente interceptor de la cadena</li>
+    <li>Si tenemos varios interceptores, estos forman una cadena de interceptores donde cada interceptor procesa la
+      solicitud o respuesta antes de reenviarla al siguiente interceptor de la cadena</li>
   </ul>
 
   <h2>Un poco de ayuda</h2>
@@ -25,12 +27,65 @@
       --project      The name of the project.                                                 [string]
       --skip-tests   Do not create "spec.ts" test files for the new interceptor.              [boolean] [default: false]
 </pre>
-  <h2>Como creamos interceptores</h2>
-  <p><span class="bolder-red">ng g interceptor interceptors/auth --functional --skip-tests</span> </p>
-  <p><span class="bolder-red">ng g interceptor interceptors/loggin --functional --skip-tests</span> </p>
+  <h2>COMO CREAMOS INTERCEPTORES</h2>
+  <p><span class="bolder-command">ng g interceptor interceptors/auth --functional --skip-tests</span> </p>
+  <p>La forma básica de un interceptor es una función que recibe dos parametros. La solicitud
+    <span class="bolder"> <a href="https://angular.io/api/common/http/HttpRequest" target="_blank">HttpRequest</a></span>
+    saliente y una función <span class="bolder"> <a href="https://angular.io/api/common/http/HttpHandlerFn" target="_blank">next</a></span>
+    que reenvia la solicitud modificada al siguiente interceptor de la cadena de interceptores, o el backend si no hay más interceptores.</p>
+  <img src="/assets/img/interceptors/auth-interceptor.jpg" alt="">
+  <p><span class="bolder-command">ng g interceptor interceptors/loggin --functional --skip-tests</span> </p>
+  <img src="/assets/img/interceptors/login-interceptor.jpg" alt="">
+  <h2>CONFIGURANDO INTERCEPTORES</h2>
+  <p>Para que estos interceptores realmente intercepten solicitudes, debe configurar HttpClient para usarlos. A continuacion
+    declaramos los interceptores que se utilizaran utilizando la función withInterceptors</p>
+  <img src="/assets/img/interceptors/configurar-interceptores.jpg" alt="">
+  <p>Los interceptores declarados se encadenan en el orden en que los haya escrito.
+    En el ejemplo anterior, <span class="bolder">authInterceptor</span> procesaría la solicitud y luego la reenviaría a
+    <span class="bolder">logginInterceptor</span>.</p>
+  <h3>Un ejemplo de la cadena de interceptores</h3>
+  <div class="ejemplo-basico-interceptores">
+    <div class="intercetores">
+      <h4>1. authInterceptor</h4>
+      <img src="/assets/img/interceptors/auth-interceptor-1.jpg" alt="">
+      <h4>2. logginInterceptor</h4>
+      <img src="/assets/img/interceptors/login-interceptor-1.jpg" alt="">
+      <h4>3. [app.config.ts]</h4>
+      <img src="/assets/img/interceptors/configurar-interceptores-1.jpg" alt="">
+    </div>
+    <div class="consola">
+      <h4>4. Realizar la solicitud</h4>
+      <img src="/assets/img/interceptors/realizar-solicitud-1.jpg" alt="">
+      <h4>5. Inspeccionar la consola</h4>
+      <img src="/assets/img/interceptors/consola-1.jpg" alt="">
+    </div>
+  </div>
+  <h3>MODIFICAR UNA SOLICITUD</h3>
+  <p>La solicitud saliente (una instancia de <span class="bolder"> <a href="https://angular.io/api/common/http/HttpRequest" target="_blank">
+    HttpRequest</a></span>) es inmutable, y los interceptores no pueden modifcarla directamente. Para poder modificar la
+    solicitud los interceptores clonan la solicitud original con el metodo <span class="bolder">.clone()</span>  y hacen las modificaciones
+    en esta nueva instancia. En el siguiente ejemplo añadimos a las cabecera de la solicitud un <span class="bolder">bearer token</span>.
+  </p>
+  <div class="ejemplo-basico-interceptores">
+    <div class="intercetores">
+      <h4>1. authInterceptor</h4>
+      <img src="/assets/img/interceptors/auth-interceptor-2.jpg" alt="">
+      <h4>2. logginInterceptor</h4>
+      <img src="/assets/img/interceptors/login-interceptor-2.jpg" alt="">
+      <h4>3. [app.config.ts]</h4>
+      <img src="/assets/img/interceptors/configurar-interceptores-1.jpg" alt="">
+    </div>
+    <div class="consola">
+      <h4>4. Realizar la solicitud</h4>
+      <img src="/assets/img/interceptors/realizar-solicitud-1.jpg" alt="">
+      <h4>5. Inspeccionar la consola</h4>
+      <img src="/assets/img/interceptors/consola-2.jpg" alt="">
+    </div>
+  </div>
+  <h2>MODIFICAR LAS RESPUESTAS DEL SERVIDOR</h2>
 
-  <p>Para que estos interceptores realmente intercepten solicitudes, debe configurar HttpClient para usarlos.</p>
 </div>
+
 
 
 

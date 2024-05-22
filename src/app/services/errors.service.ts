@@ -58,7 +58,7 @@ export class ErrorsService {
     return this.http.get<Movie>( this.API_URL + '/movie/550')
   }
 
-   
+
   private manejarError(error: HttpErrorResponse) {
     // ERROR DE RED O CONEXION
     if( error.status === 0 ){
@@ -90,7 +90,7 @@ export class ErrorsService {
       }
       return throwError(() => errorBE)
     }
-    
+
   }
-  
+
 }

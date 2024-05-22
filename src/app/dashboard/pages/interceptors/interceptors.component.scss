@@ -1,7 +1,23 @@
 .contenedor{
   padding: 15px;
 }
-.bolder-red{
-    font-weight: bolder;
-    color: #0472a8;
+.ejemplo-basico-interceptores{
+  display: flex;
+  max-width: 100%;
+  flex-direction: row;
+  gap: 25px;
+  .intercetores{
+    max-width: 60%;
+    flex-shrink: 1;
+    flex-grow: 1;
+    img{
+      width: 100%;
+    }
+  }
+  .consola{
+    max-width: 35%;
+    flex-shrink: 2;
+    flex-grow:1;
+    overflow-x: hidden;
+  }
 }

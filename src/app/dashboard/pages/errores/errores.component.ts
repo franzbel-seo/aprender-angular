@@ -25,14 +25,14 @@ export class ErroresComponent {
   mostrarErrorBE: boolean = false;
 
 
-  errorFront = {
+ errorFront = {
     "headers":{
        "normalizedNames":{
-          
+
        },
        "lazyUpdate":null,
        "headers":{
-          
+
        }
     },
     "status":0,
@@ -66,7 +66,7 @@ export class ErroresComponent {
 
 
   movie200ok!: Movie;
-  
+
   movie404NotFound!: any;
   movie401Unauthorized!: any;
 
@@ -132,7 +132,6 @@ export class ErroresComponent {
       },
       error => {
         this.errorBE = error
-        console.log('EL ERROR COMPLETO F/B', error)
         this.mostrarErrorBE = true
       }
     )
