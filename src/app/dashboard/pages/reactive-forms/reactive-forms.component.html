@@ -1,15 +1,90 @@
-<h1>Formularios reactivos</h1>
-<h2>Bloques de consrtrucción fundamentales</h2>
-<table>
-  <thead>
+<div class="contenedor-contenido">
+  <h1>Formularios reactivos</h1>
+  <h2>Bloques de consrtrucción fundamentales</h2>
+
+  <h3>AbstractControl</h3>
+  <p>Esta es la clase base para FormControl, FormGroup y FormArray. Proporciona parte del comportamiento compartido que
+    tienen todos los controles y grupos de controles, como acceder a valores,  ejecutar validadores, calcular el estado
+    de validación, interacciones del usuaro, eventos y restablecer el estado. También define las propiedades que se comparten
+    entre todas las subclases, como <span class="bolder italic">value</span>, <span class="bolder italic ">valid</span> y
+    <span class="bolder italic">dirty</span>. No se debe crear una instancia directamente.</p>
+
+  <h3>FormGroup</h3>
+  <p>Realiza un seguimiento del valor y el estado de validez de un grupo de instancias de FormControl.</p>
+  <h3>FormControl</h3>
+  <p>Realiza un seguimiento del valor y el estado de validez de un control de formulario individual.</p>
+  <h3>FormArray</h3>
+  <p>Realiza un seguimiento del valor y el estado de validez de un arreglo de instancias de FormControl, FormGroup o FormArray.</p>
+  <h3>FormRecord</h3>
+  <p>Realiza un seguimiento del valor y el estado de validez de una colección de instancias de FormControl, cada una de
+    las cuales tiene el mismo tipo de valor.</p>
+  <div>
+  <pre>
+    class AbstractControl... &#123;
+        <span class="bolder italic orange">CONSTRUCTOR</span>
+        constructor(...)
+        <span class="italic bolder orange">PROPIEDADES</span>
+        value: TValue
+        validator: ValidatorFn | null
+        asyncValidator: AsyncValidatorFn | null
+        parent: FormGroup | FormArray | null
+        status: FormControlStatus
+        valid: boolean
+        invalid: boolean
+        pending: boolean
+        disabled: boolean
+        enabled: boolean
+        errors: ValidationErrors | null
+        pristine: boolean
+        dirty: boolean
+        touched: boolean
+        untouched: boolean
+        valueChanges: Observable&#60;TValue&#62;
+        statusChanges: Observable&#60;FormControlStatus&#62;
+        updateOn: FormHooks
+        root: AbstractControl
+        <span class="bolder italic orange">MÉTODOS</span>
+        setValidators()
+        setAsyncValidators()
+        addValidators()
+        addAsyncValidators()
+        removeValidators()
+        removeAsyncValidators()
+        hasValidator()
+        hasAsyncValidator()
+        clearValidators()
+        clearAsyncValidators()
+        markAsTouched()
+        markAllAsTouched()
+        markAsUntouched()
+        markAsDirty()
+        markAsPristine()
+        markAsPending()
+        disable()
+        enable()
+        setParent()
+        setValue()
+        patchValue()
+        reset()
+        getRawValue()
+        updateValueAndValidity()
+        setErrors()
+        get()
+        getError()
+        hasError()
+    &#125;
+  </pre>
+  </div>
+  <table>
+    <thead>
     <tr>
       <th>FormGroup</th>
       <th>FormControl</th>
       <th>FormArray</th>
       <th>FormRecord</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     <tr>
       <td>
         <pre>
@@ -71,11 +146,7 @@
       </td>
       <td>
         <pre>
-        export class FormGroup... &#123;
-                  <span class="bolder italic orange">CONSTRUCTOR</span>
-                  constructor(...)
-                  <span class="italic bolder orange">PROPIEDADES</span>
-                  controls: ...;
+        class FormRecord... &#123;
                   <span class="bolder italic orange">MÉTODOS</span>
                   registerControl()
                   addControl()
@@ -90,67 +161,74 @@
         </pre>
       </td>
     </tr>
-  </tbody>
-</table>
-<h2> Módulo de formularios reactivos</h2>
-<p>Este módulo declara las directivas que se necesitan para usar formularios reactivos</p>
-<table>
-  <thead>
+
+    </tbody>
+  </table>
+  <h2> Módulo de formularios reactivos (ReactiveFormsModule)</h2>
+  <p>Este módulo declara las directivas que se necesitan para usar formularios reactivos</p>
+  <table>
+    <thead>
     <tr>
       <th>Directiva</th>
       <th>Selectores</th>
       <th>Descripción</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
 
 
-  <tr>
-    <td>FormArrayName</td>
-    <td>[formArrayName]</td>
-    <td>Sincroniza un FormArray anidado con un elemento DOM.</td>
-  </tr>
-  <tr>
-    <td>FormControlDirective</td>
-    <td>[formControl]</td>
-    <td>Sincroniza una instancia de FormControl independiente con un elemento de control de formulario.</td>
-  </tr>
-
-  <tr>
-    <td>FormGroupDirective</td>
-    <td>[formGroup]</td>
-    <td>Vincula un FormGroup o un FormRecord a un elemento DOM.</td>
-  </tr>
-  <tr>
-    <td>FormControlName</td>
-    <td>[formControlName]</td>
-    <td>Sincroniza un FormControl en un FormGroup existente con un elemento de control de formulario por nombre.</td>
-  </tr>
-  <tr>
-    <td>FormGroupName</td>
-    <td>[formGroupName]</td>
-    <td>Sincroniza un FormGroup o un FormRecord anidado con un elemento DOM.</td>
-  </tr>
-
-  </tbody>
-</table>
-<h3>Ejemplo</h3>
-<p>Creamos una propiedad llamada <span class="italic bolder">form</span> en la clase del componente y establecemos la propiedad
-a una nueva instancia  <span class="italic bolder">form group</span>. Para inicializar el <span class="italic bolder">form group</span>
-proporcionamos un  objeto de keys con nombre emparejadas con su control
-</p>
-<table>
-  <thead>
     <tr>
-      <th>Clase del componente</th>
-      <th>Plantilla</th>
-      <th>Formulario</th>
-      <th>Valor</th>
+      <td>FormArrayName</td>
+      <td>[formArrayName]</td>
+      <td>Sincroniza un FormArray anidado con un elemento DOM.</td>
     </tr>
-  </thead>
-  <tbody>
+    <tr>
+      <td>FormControlDirective</td>
+      <td>[formControl]</td>
+      <td>Sincroniza una instancia de FormControl independiente con un elemento de control de formulario.</td>
+    </tr>
+
+    <tr>
+      <td>FormGroupDirective</td>
+      <td>[formGroup]</td>
+      <td>Vincula un FormGroup o un FormRecord a un elemento DOM.</td>
+    </tr>
+    <tr>
+      <td>FormControlName</td>
+      <td>[formControlName]</td>
+      <td>Sincroniza un FormControl en un FormGroup existente con un elemento de control de formulario por nombre.</td>
+    </tr>
+    <tr>
+      <td>FormGroupName</td>
+      <td>[formGroupName]</td>
+      <td>Sincroniza un FormGroup o un FormRecord anidado con un elemento DOM.</td>
+    </tr>
+
+    </tbody>
+  </table>
+  <h3>Ejemplo</h3>
+  <p><span class="bolder">1. </span>Creamos una propiedad llamada <span class="italic bolder">form</span> en la clase del componente y establecemos la propiedad
+    a una nueva instancia  <span class="italic bolder">FormGroup</span>. Para inicializar el <span class="italic bolder">FormGroup</span>
+    proporcionamos un  objeto de keys con nombre emparejadas con su control
+  </p>
+  <p><span class="bolder">2. </span> Actualizar la plantilla</p>
+  <ul>
+    <li>La instancia FormGroup se vincula al elemento <span class="bolder">form</span> del formulario
+      con la directiva <span class="bolder">FormGroup</span></li>
+    <li>Cada instancia FormControl se vincula a cada campo del formulario con la directiva <span class="bolder">FormControlName</span></li>
+  </ul>
+  <p><span class="bolder">3. </span> Guardar los datos del formulario</p>
+  <p>La directiva FormGroup escucha el evento <span class="bolder">submit</span> emitido por el elemento form y emite un
+    evento ngSubmit que puede vincular a una función callBack. Agregue un detector de eventos ngSubmit a la etiqueta form
+    con el método onSubmit().</p>
+  <p>El metodo onSubmit() en la clase del componente captura el valor actual de la propiedad <span class="bolder">form</span></p>
+  <table>
+    <thead>
+    </thead>
+    <tbody>
     <tr>
       <td>
+        <h4>Clase del componente</h4>
         <pre>
         import &#123;ReactiveFormsModule&#125; from "&#64;angular/forms";
         &#64;Component(&#123;
@@ -163,31 +241,388 @@ proporcionamos un  objeto de keys con nombre emparejadas con su control
           username: new FormControl(''),
           password: new FormControl(''),
         &#125;)
+        onSubmit()&#123;
+          console.log(this.form.value)
+        &#125;
         </pre>
 
       </td>
       <td>
+        <h4>Plantilla</h4>
         <pre>
-          &#60;form [formGroup]="form"&#62;
+          &#60;form [formGroup]="form" (ngSubmit)="onSubmit()"&#62;
             &#60;p&#62;	&#60;input formControlName="username"&#62;&#60;/p&#62;
             &#60;p&#62;	&#60;input formControlName="password"&#62;&#60;/p&#62;
+            &#60;button type="submit"&#62;Enviar&#60;/button&#62;
           &#60;/form&#62;
         </pre>
 
       </td>
+    </tr>
+    <tr>
       <td>
-        <form [formGroup]="form">
+        <h4>Formulario</h4>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <p><input formControlName="username"></p>
           <p><input formControlName="password"></p>
+          <button type="submit">Enviar</button>
         </form>
       </td>
       <td>
+        <h4>Valor</h4>
         {{
           form.value | json
         }}
       </td>
     </tr>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+  <h2>Creando grupos de formularios anidados</h2>
+  <p>Una instancia <span class="bolder">FormGroup</span> puede aceptar como hijos instancias indivuales de
+    <span class="bolder">FormControl</span> y otras instancias <span class="bolder">FormGroup</span>. Esto nos
+  permite agrupar partes del formulario que estan relacionadas</p>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <h3>Clase del componente</h3>
+          <pre>
+            formularioPerfil =  new FormGroup(&#123;
+              nombre: new FormControl(''),
+              apellido: new FormControl(''),
+              direccion: new FormGroup(&#123;
+                  calle: new FormControl(''),
+                  ciudad: new FormControl(''),
+                  telefono: new FormControl('')
+                &#125;)
+            &#125;);
+          </pre>
+        </td>
+        <td>
+          <h3>Plantilla del componente</h3>
+          <pre>
+          &#60;form [formGroup]="formularioPerfil" (ngSubmit)="onSubmit()"&#62;
+            &#60;div&#62;
+              &#60;label for="nombre"&#62;Nombre: &#60;/label&#62;
+              &#60;input formControlName="nombre" id="nombre"&#62;
+            &#60;/div&#62;
+            &#60;div&#62;
+              &#60;label for="apellido"&#62;Apellido: &#60;/label&#62;
+              &#60;input formControlName="apellido" id="apellido"&#62;
+            &#60;/div&#62;
+            &#60;div formGroupName="direccion"&#62;
+              &#60;div&#62;
+                &#60;label for="calle"&#62;Calle: &#60;/label&#62;
+                &#60;input formControlName="calle" id="calle"&#62;
+              &#60;/div&#62;
+              &#60;div&#62;
+                &#60;label for="ciudad"&#62;Ciudad: &#60;/label&#62;
+                &#60;input formControlName="ciudad" id="ciudad"&#62;
+              &#60;/div&#62;
+              &#60;div&#62;
+                &#60;label for="telefono"&#62;Telefono: &#60;/label&#62;
+                &#60;input formControlName="telefono" id="telefono"&#62;
+              &#60;/div&#62;
+            &#60;/div&#62;
+            &#60;button type="submit"&#62;ENVIAR&#60;/button&#62;
+          &#60;/form&#62;
+          </pre>
 
 
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h3>Formulario</h3>
+          <form [formGroup]="formularioPerfil" (ngSubmit)="onSubmit()">
+            <div>
+              <label for="nombre">Nombre: </label>
+              <input formControlName="nombre" id="nombre">
+            </div>
+            <div>
+              <label for="apellido">Apellido: </label>
+              <input formControlName="apellido" id="apellido">
+            </div>
+            <div formGroupName="direccion">
+              <div>
+                <label for="calle">Calle: </label>
+                <input formControlName="calle" id="calle">
+              </div>
+              <div>
+                <label for="ciudad">Ciudad: </label>
+                <input formControlName="ciudad" id="ciudad">
+              </div>
+              <div>
+                <label for="telefono">Telefono: </label>
+                <input formControlName="telefono" id="telefono">
+              </div>
+            </div>
+            <button type="submit">ENVIAR</button>
+          </form>
+        </td>
+        <td>
+          <h3>Valores</h3>
+          <p>{{formularioPerfil.value | json}}</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>Métodos de instancia FormGroup</h2>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <h3>Clase del componente</h3>
+          <pre>
+          nuevoUsuario = new FormGroup(&#123;
+            nombreDeUsuario: new FormControl(''),
+            telefonos: new FormGroup(&#123;
+              celular: new FormControl(''),
+              fijo: new FormControl('')
+            &#125;)
+          &#125;)
+          </pre>
+
+        </td>
+        <td>
+          <h3>Formulario</h3>
+          <form [formGroup]="nuevoUsuario">
+            <div>
+              <label for="nombreDeUsuario">Username: </label>
+              <input type="text" formControlName="nombreDeUsuario" id="nombreDeUsuario">
+            </div>
+            <div formGroupName="telefonos">
+              <div>
+                <label for="celular">Celular: </label>
+                <input type="text" formControlName="celular" id="celular">
+              </div>
+              <div>
+                <label for="fijo">Fijo: </label>
+                <input type="text" formControlName="fijo" id="fijo">
+              </div>
+            </div>
+          </form>
+        </td>
+      </tr>
+    <tr>
+      <td>
+        <h3>setValue()</h3>
+        <p>Establece el valor del FromGroup. Acepta un objeto JS que coincide completamente con la estructura del grupo.
+          Las keys del objeto son los nombres de los controles.</p>
+        <button (click)="setValue()">Set Value</button>
+      </td>
+      <td>
+        <h3>Clase del componente</h3>
+        <pre>
+<span class="bolder orange">setValue</span>()&#123;
+  this.nuevoUsuario.setValue(&#123;
+  nombreDeUsuario: 'Nancy',
+  telefonos: &#123;
+      celular: '70710228',
+      fijo: '4260296'
+  &#125;
+  &#125;);
+&#125;
+        </pre>
+      </td>
+      <td>
+        <h3>Valores</h3>
+        <p>{{nuevoUsuario.value | json}}</p>
+      </td>
+    </tr>
+
+
+      <tr>
+        <td>
+          <h3>patchValue()</h3>
+          <p>Parchea el valor de FormGroup. Acepta un objeto JS que coincide parcialmente con la estructura del grupo.
+            Las keys del objeto son los nombres de los controles.</p>
+          <button (click)="patchValue()">Patch Value</button>
+        </td>
+        <td>
+          <h3>Clase del componente</h3>
+          <pre>
+<span class="bolder orange">patchValue</span>()&#123;
+  this.nuevoUsuario.patchValue(&#123;
+  telefonos: &#123;
+      celular: '75936842',
+  &#125;
+  &#125;);
+&#125;
+        </pre>
+        </td>
+        <td>
+          <h3>Valores</h3>
+          <p>{{nuevoUsuario.value | json}}</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<!-----------------------------------------------------------------------------------------------------  VALIDACIONES-->
+  <h2>VALIDACIONES</h2>
+  <h3>Validaciones incorporadas</h3>
+  <table>
+    <tbody>
+    <tr>
+      <td>static min(min: number): ValidatorFn</td>
+      <td>
+        Validador que requiere que el valor del control sea mayor o igual al número proporcionado
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
+  <h3>Mostrar los errores</h3>
+
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <pre>
+          usuario = new FormGroup(&#123;
+          edad: new FormControl(
+            '', [
+              Validators.min(18),
+              Validators.required
+            ]),
+          habilidad: new FormControl(
+            '', [
+              Validators.minLength(4),
+              Validators.maxLength(8),
+              Validators.required
+            ]),
+          &#125;)
+          </pre>
+
+        </td>
+        <td colspan="3">
+          <pre>
+          &#60;form [formGroup]="usuario">
+            &#60;div>
+              &#60;label for="edad">Edad: &#60;/label> &#60;br>
+              &#60;input formControlName="edad" id="edad">
+            &#64;if( edad?.invalid && ( edad?.dirty || edad?.touched ))&#123;
+              &#64;if (edad?.hasError('min'))&#123;
+                &#60;p class="error">La edad minima es 18&#60;/p>
+              &#125; &#64;else if (edad?.hasError('required'))&#123;
+                &#60;p class="error">El campo es obligatorio&#60;/p>
+              &#125;
+            &#125;
+            &#60;/div>
+            &#60;div>
+              &#60;label for="habilidad">Habilidad: &#60;/label> &#60;br>
+              &#60;input formControlName="habilidad" id="habilidad">
+            &#64;if( habilidad?.invalid && ( habilidad?.dirty || habilidad?.touched ))&#123;
+              &#64;if (habilidad?.hasError('minlength'))&#123;
+                &#60;p class="error">Ingrese al menos cuatro caracteres&#60;/p>
+              &#125; &#64;else if (habilidad?.hasError('required'))&#123;
+                &#60;p class="error">El campo es obligatorio&#60;/p>
+              &#125; &#64;else if (habilidad?.hasError('maxlength'))&#123;
+                &#60;p class="error">Ingrese a lo sumo 8 caracteres&#60;/p>
+              &#125;
+            &#125;
+            &#60;/div>
+            &#60;button type="submit">ENVIAR&#60;/button>
+          &#60;/form>
+          </pre>
+
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="8">
+          <form [formGroup]="usuario">
+            <div>
+              <label for="edad">Edad: </label> <br>
+              <input formControlName="edad" id="edad">
+              @if( edad?.invalid && ( edad?.dirty || edad?.touched )){
+                @if (edad?.hasError('min')){
+                  <p class="error">La edad minima es 18</p>
+                } @else if (edad?.hasError('required')){
+                  <p class="error">El campo es obligatorio</p>
+                }
+              }
+            </div>
+            <div>
+              <label for="habilidad">Habilidad: </label> <br>
+              <input formControlName="habilidad" id="habilidad">
+              @if( habilidad?.invalid && ( habilidad?.dirty || habilidad?.touched )){
+                @if (habilidad?.hasError('minlength')){
+                  <p class="error">Ingrese al menos cuatro caracteres</p>
+                } @else if (habilidad?.hasError('required')){
+                  <p class="error">El campo es obligatorio</p>
+                } @else if (habilidad?.hasError('maxlength')){
+                  <p class="error">Ingrese a lo sumo 8 caracteres</p>
+                }
+              }
+            </div>
+            <button type="submit">ENVIAR</button>
+          </form>
+        </td>
+        <td><div><span class="bolder orange">edad?.status: </span> {{edad?.status}}</div></td>
+        <td>
+          <h4>Propiedad status</h4>
+          <div>El estado de validación del control</div>
+        </td>
+      </tr>
+      <tr>
+        <td><div><span class="bolder orange">edad?.valid: </span> {{edad?.valid}}</div></td>
+        <td>
+          <h4>Propiedad valid</h4>
+          <div>Un control es <span class="bolder">valid</span> cuando cuando su <span class="bolder">status</span> es <span class="bolder">VALID</span></div>
+        </td>
+      </tr>
+      <tr>
+        <td><div><span class="bolder orange">edad?.invalid: </span> {{edad?.invalid}}</div></td>
+        <td>
+          <h4>Propiedad invalid</h4>
+          <div>Un control es <span class="bolder">invalid</span> cuando cuando su <span class="bolder">status</span> es <span class="bolder">INVALID</span></div>
+        </td>
+      </tr>
+      <tr>
+        <td><div><span class="bolder orange">edad?.errors:</span> {{edad?.errors | json}}</div></td>
+        <td>
+          <h4>Propiedad errors</h4>
+          <div>Un objeto que contiene cualquier error generado cuando una validacion falla, o null si es que no hay errores</div>
+        </td>
+      </tr>
+      <tr>
+        <td><div><span class="bolder orange">edad?.pristine:</span> {{edad?.pristine | json}}</div></td>
+        <td>
+          <h4>Propiedad pristine</h4>
+          <div>Un control es <span class="bolder">pristine</span> si el usuario aún no ha cambiado el valor del control en la
+            interfaz de usuario.</div>
+        </td>
+      </tr>
+      <tr>
+        <td><div><span class="bolder orange">edad?.dirty:</span> {{edad?.dirty | json}}</div></td>
+        <td>
+          <h4>Propiedad dirty</h4>
+          <div>Un control es <span class="bolder">dirty</span> si el usuario ha cambiado el valor del control en la
+            interfaz de usuario.</div>
+        </td>
+      </tr>
+      <tr>
+        <td><div><span class="bolder orange">edad?.touched:</span> {{edad?.touched | json}}</div></td>
+        <td>
+          <h4>Propiedad touched</h4>
+          <div><span class="bolder">true</span> si el control se marca como <span class="bolder">touched</span></div>
+          <div>Un control es marcado como <span class="bolder">touched</span> una vez que el usuario a disparado un evento
+            <span class="bolder">blur</span></div> sobre el.
+          <div>El evento blur es disparado cuando un elemento ha perdido su foco.</div>
+        </td>
+      </tr>
+      <tr>
+        <td><div><span class="bolder orange">edad?.untouched:</span> {{edad?.untouched | json}}</div></td>
+        <td>
+          <h4>Propiedad untouched</h4>
+          <div><span class="bolder">true</span> si el control no se ha marcado como <span class="bolder">touched</span></div>
+          <div>Un control es <span class="bolder">untouched</span> si el usuario no a disparado un evento
+            <span class="bolder">blur</span></div> sobre el.
+          <div>El evento blur es disparado cuando un elemento ha perdido su foco.</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+</div>
