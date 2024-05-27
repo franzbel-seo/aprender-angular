@@ -1,6 +1,8 @@
 <div class="contenedor-contenido">
   <h1>Formularios reactivos</h1>
+
   <h2>Bloques de consrtrucción fundamentales</h2>
+  <p>carpeta validators -> minimo.validator.ts </p>
 
   <h3>AbstractControl</h3>
   <p>Esta es la clase base para FormControl, FormGroup y FormArray. Proporciona parte del comportamiento compartido que
@@ -207,6 +209,7 @@
     </tbody>
   </table>
   <h3>Ejemplo</h3>
+  <p><span class="bolder">0. </span>Inportamos el módulo <span class="bolder">ReactiveFormsModule</span>en el componente</p>
   <p><span class="bolder">1. </span>Creamos una propiedad llamada <span class="italic bolder">form</span> en la clase del componente y establecemos la propiedad
     a una nueva instancia  <span class="italic bolder">FormGroup</span>. Para inicializar el <span class="italic bolder">FormGroup</span>
     proporcionamos un  objeto de keys con nombre emparejadas con su control
@@ -529,7 +532,7 @@
         </td>
       </tr>
       <tr>
-        <td rowspan="8">
+        <td rowspan=10>
           <form [formGroup]="usuario">
             <div>
               <label for="edad">Edad: </label> <br>
@@ -621,8 +624,73 @@
           <div>El evento blur es disparado cuando un elemento ha perdido su foco.</div>
         </td>
       </tr>
+      <tr>
+        <td><div><span class="bolder orange">edad?.hasError('min'):</span> {{edad?.hasError('min')}}</div></td>
+        <td>
+          <h4>Método hasError()</h4>
+          <div>Reporta si el control tiene el error especificado</div>
+
+        </td>
+      </tr>
+      <tr>
+        <td><div><span class="bolder orange">edad?.getError('min'):</span> {{edad?.getError('min') | json}}</div></td>
+        <td>
+          <h4>Método getError</h4>
+          <div>Reporta el error especificado del control</div>
+
+        </td>
+      </tr>
     </tbody>
   </table>
 
+  <h3>Clases CSS</h3>
+  <p>Angular refleja automáticamente muchas propiedades del control en el formulario como clases CSS. Utilice estas clases
+    para diseñar el formulario. Actualmente se admiten las siguientes clases.</p>
+  <ul>
+    <li>ng-valid</li>
+    <li>ng-invalid</li>
+    <li>ng-pending</li>
+    <li>ng-pristine</li>
+    <li>ng-dirty</li>
+    <li>ng-untouched</li>
+    <li>ng-touched</li>
+    <li>ng-submitted (enclosing form element only)</li>
+  </ul>
+
+  <h2>VALIDACIONES PERSONALIZADAS</h2>
+  <p><span class="bolder">1. </span>Creamos un archivo: minimo.validator.ts ubicado en src/app/validators</p>
+  <p><span class="bolder">2. </span>Definimos la siguiente funcion:</p>
+  <pre>
+import &#123;AbstractControl, ValidationErrors, ValidatorFn&#125; from "&#64;angular/forms";
+export function minimoValidator(number: number): ValidatorFn&#123; // ------> Retornamos una función de validacion
+  return (control: AbstractControl): ValidationErrors | null => &#123;
+    return (number > control.value) ? &#123; 'minimo': &#123; minimo: number, actual: control.value &#125; &#125; : null;
+
+  &#125;
+&#125;
+
+  </pre>
+  <h4>Nuestra funcion de validacion retorna</h4>
+  <p><span class="bolder">null -> </span>Cuando el valor del control es valido</p>
+
+  <p>
+    <span class="bolder">&#123; minimo: &#123;...&#125;&#125; -> </span>Objeto error de validación cuando el valor del control es no valido. Usualmente este objeto
+    tiene una propiedad cuyo nombre es la validation key ('minimo') y cuyo valor es un diccionario
+    arbitrario de valores que podemos insertar en el mensaje de error.
+  </p>
+  <p><span class="bolder">3. </span>Usamos nuestra validación</p>
+  <pre>
+import &#123;minimoValidator&#125; from "../../../validators/minimo.validator";
+
+usuario = new FormGroup(&#123;
+    edad: new FormControl(
+      '', [
+        <span class="bolder orange">minimoValidator(22)</span>
+      ]),
+    habilidad: new FormControl(
+      '', [
+      ]),
+&#125;)
+  </pre>
 
 </div>

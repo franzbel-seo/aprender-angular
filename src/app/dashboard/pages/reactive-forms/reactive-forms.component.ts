@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {JsonPipe} from "@angular/common";
+import {minimoValidator} from "../../../validators/minimo.validator";
 
 @Component({
   selector: 'app-reactive-forms',
@@ -37,7 +38,12 @@ export class ReactiveFormsComponent {
   })
 
   usuario = new FormGroup({
-    edad: new FormControl('', [Validators.min(18), Validators.required]),
+    edad: new FormControl(
+      '', [
+        // Validators.min(18),
+        Validators.required,
+        minimoValidator(22)
+      ]),
     habilidad: new FormControl(
       '', [
         Validators.minLength(4),
