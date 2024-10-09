@@ -1,0 +1,48 @@
+<div class="contenedor-contenido">
+  <h2>Un poco de ayuda</h2>
+  <p>Las interfaces son tipos de datos personalizados para su aplicación.</p>
+  <code>ng g interface --help</code>
+  <p>De forma equivalente podemos usar:</p>
+  <code>ng g i --help</code>
+  <pre>
+ng g interface [name] [type]
+
+Creates a new, generic interface definition in the given project.
+
+Arguments:
+  name  The name of the interface.                                                                                                                                                                                          [string]  type  Adds a developer-defined type to the filename, in the format "name.type.ts".                                                                                                                                        [string]
+
+Options:
+  --help         Shows a help message for this command in the console.                               [boolean]
+  --interactive  Enable interactive input prompts.                                   [boolean] [default: true]
+  -d, --dry-run  Run through and reports activity without writing out results.      [boolean] [default: false]
+  --defaults     Disable interactive input prompts for options with a default.      [boolean] [default: false]
+  --force        Force overwriting of existing files.                               [boolean] [default: false]
+  --prefix       A prefix to apply to generated selectors.                                            [string]
+  --project      The name of the project.                                                             [string]
+</pre>
+  <h2>Una vista previa</h2>
+  <code>ng g i interfaces/MiTipoDeDato --dry-run</code>
+  <h2>Crear la interface</h2>
+  <code>ng g i interfaces/MiTipoDeDato</code>
+  <div>
+    <small>
+      <strong>Notas:</strong>
+      <ul>
+        <li>El nombre del archivo creado es: mi-tipo-de-dato.ts</li>
+        <li>El nombre de la interfaz: MiTipoDeDato</li>
+      </ul>
+    </small>
+  </div>
+
+  <h2>Agregar propiedades a la nueva interfaz</h2>
+
+  <pre>
+<span class="orange bolder">export interface</span> PayLoadMenu &#123;
+  idAplicacion: <strong class="bolder">string</strong>;
+  menu: <span class="bolder">ListaMenuItem[]</span>;
+&#125;
+
+</pre>
+
+</div>

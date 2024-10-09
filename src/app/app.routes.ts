@@ -7,6 +7,21 @@ export const routes: Routes = [
         loadComponent: () =>  import('./dashboard/dashboard.component').then( c => c.DashboardComponent),
         children: [
             {
+              path: 'dialogos',
+              title: 'Dialogos',
+              loadComponent: () => import('./dashboard/pages/dialogos/dialogos.component').then( c => c.DialogosComponent)
+            },
+            {
+                path: 'crear-paginas',
+                title: 'Crear paginas',
+                loadComponent: () => import('./dashboard/pages/paginas/paginas.component').then( c => c.PaginasComponent)
+            },
+            {
+                path: 'interfaces',
+                title: 'Interfaces',
+                loadComponent: () => import('./dashboard/pages/interfaces/interfaces.component').then( c => c.InterfacesComponent)
+            },
+            {
                 path: 'control-flow',
                 title: 'Control flow',
                 loadComponent: () => import('./dashboard/pages/control-flow/control-flow.component').then( c => c.ControlFlowComponent )
@@ -30,6 +45,11 @@ export const routes: Routes = [
               path: 'reactive-forms',
               title: 'Reactive forms',
               loadComponent: () => import('./dashboard/pages/reactive-forms/reactive-forms.component').then( c => c.ReactiveFormsComponent)
+            },
+            {
+              path: 'http',
+              title: 'HTTP',
+              loadComponent: () => import('./dashboard/pages/http/http.component').then( c => c.HttpComponent)
             },
 
             {

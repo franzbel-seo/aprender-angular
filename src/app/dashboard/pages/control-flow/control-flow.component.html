@@ -1,1 +1,47 @@
-<p>control-flow works!</p>
+<div class="contenedor-contenido">
+  <h2>CONTROL DE FLUJO INCORPORADO</h2>
+  <p>Las plantillas de angular admiten bloques de control de flujo que le permiten mostrar,
+    ocultar y repetir elementos de forma condicional.</p>
+  <h3>Mostrar contenido si se cumple una condición: &#64;if</h3>
+  <pre>
+  &#64;if(a > b)&#123;
+    &#123; &#123;a&#125; &#125; es mayor que &#123; &#123;b&#125; &#125;
+  &#125;
+</pre>
+
+  <pre>
+  &#64;if(a > b)&#123;
+    &#123; &#123;a&#125; &#125; es mayor que &#123; &#123;b&#125; &#125;
+  &#125;&#64;else if(b > a)&#123;
+    &#123; &#123;a&#125; &#125; es menor que &#123; &#123;b&#125; &#125;
+  &#125;&#64;else &#123;
+    &#123; &#123;a&#125; &#125; es igual a &#123; &#123;b&#125; &#125;
+  &#125;
+</pre>
+  <h3>Repeticiones con &#64;for</h3>
+  <p>Repetimos contenido por cada item en una colección. El contenido se renderiza cuando hay cambios en la colección</p>
+  <pre>
+  &#64;for (item of coleccion; track item.id) &#123;
+    &#123; &#123;item.name&#125; &#125;
+  &#125; &#64;empty&#123;
+    // El contenido de este bloque se muestra cuando no existen elementos en la coleccion
+  &#125;
+</pre>
+  <h4>track</h4>
+  <ul>
+    <li>El valor de la expresión track determina un identificador unico para asociar los elementos de la colección
+    con el DOM</li>
+    <li>El uso eficaz de track puede mejorar significativamente el rendimiento de su aplicación. Por ejemplo, si
+      se añade un elemento a una coleccion de 100 elementos, queremos que Angular
+      añada el nuevo elemento al DOM sin necesidad de renderizar todos los elementos restantes.
+    </li>
+    <li>
+      Para las colecciones que no sufren modificaciones (no se mueven, agregan ni eliminan elementos), el uso de track $index
+      es una estrategia eficiente. Para las colecciones con datos mutables o cambios frecuentes, el valor de la expresión track
+      deberia ser una propiedad que identifique de forma única cada elemento.
+    </li>
+  </ul>
+
+
+
+</div>

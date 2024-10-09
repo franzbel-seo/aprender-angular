@@ -1,0 +1,37 @@
+<div class="contenedor-contenido">
+  <h2>Un poco de ayuda</h2>
+  <p>Un poco de ayuda</p>
+  <code>ng g c --help</code>
+  <h2>Vista previa</h2>
+  <p>Una vista previa</p>
+  <code>ng g c dashboard/pages/paginas --dry-run</code>
+  <h2>Crear el componente</h2>
+  <p>Crear la página</p>
+  <code>ng g c dashboard/pages/paginas</code>
+  <h2>Incluir la ruta</h2>
+  <code>[app.routes.ts]</code>
+  <pre>
+  export const routes: Routes = [
+  &#123;
+    path: 'dashboard',
+    loadComponent: () =>  import('./dashboard/dashboard.component').then( c => c.DashboardComponent),
+    children: [
+            &#123;
+              path: 'dialogos',
+              title: 'Dialogos',
+              loadComponent: () => import('./dashboard/pages/dialogos/dialogos.component').then( c => c.DialogosComponent)
+            &#125;,
+            ...
+        ]
+    &#125;,
+  &#123;
+  path: '',
+  redirectTo: '/dashboard',
+  pathMatch: 'full'
+  &#125;
+];
+
+</pre>
+
+
+</div>

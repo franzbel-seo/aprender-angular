@@ -1,0 +1,67 @@
+<div class="contenedor-contenido">
+
+  <h2>Proporcionar HttpClient mediante inyección de dependencia</h2>
+  <p><span class="bolder">HttpClient</span> se proporciona mediante la función auxiliar <span class="bolder">provideHttpClient</span>,
+    que la mayoría de las aplicaciones   incluyen en los providers de aplicaciones en <span class="bolder">app.config.ts</span>.</p>
+  [app.config.ts]
+  <pre>
+export const appConfig: ApplicationConfig = &#123;
+  providers: [
+    <span class="bolder orange">provideHttpClient(),</span>
+  ]
+&#125;;
+  </pre>
+  <p>Luego puedes inyectar el servicio HttpClient como una dependencia de tus componentes, servicios u otras clases:</p>
+  [errors.service.ts]
+  <pre>
+&#64;Injectable(&#123;providedIn: 'root'&#125;)
+export class ConfigService &#123;
+  constructor(private http: HttpClient) &#123;&#125;
+  getMovie(): Observable&#60;Movie&#62;&#123;
+    return this.http.get&#60;Movie&#62;(...);
+  &#125;
+&#125;
+  </pre>
+  <h2>Configurar caracteristicas de HttpClient</h2>
+  <p>
+    <span class="bolder">provideHttpClient</span> acepta una lista de configuraciones de caracteristicas opcionales para
+    habilitar o configurar el comportamiento de diferentes aspectos del cliente. Esta sección detalla las caracteristicas
+    opcionales y sus usos.
+  </p>
+  <h3>withInterceptors(...)</h3>
+  <p>
+    <span class="bolder">withInterceptors</span> configura el conjunto de funciones interceptoras que procesarán las
+    solicitudes realizadas a través de HttpClient.
+  </p>
+  [app.config.ts]
+  <pre>
+export const appConfig: ApplicationConfig = &#123;
+  providers: [
+    provideRouter(routes),
+    provideHttpClient( <span class="bolder orange">withInterceptors([authInterceptor, logginInterceptor])</span>)
+  ]
+&#125;
+  </pre>
+  <h2>HACER SOLICITUDES</h2>
+  <h3>Establecer parametros de la URL</h3>
+  <h3>...</h3>
+  <h3>Establecer headers de la solicitud</h3>
+  <h2>MEJORES PRACTICAS</h2>
+  <h2>API: HttpClient</h2>
+  <p>Realiza solicitudes HTTP. Este servicio está disponible como una clase inyectable, con métodos para realizar solicitudes
+    HTTP. Cada método de solicitud tiene varias firmas y el tipo de lo que se devuelve varía según la firma que se llama
+    (principalmente los valores observer y responseType).</p>
+  <pre>
+class HttpClient &#123;
+    request(...)
+    delete(url: string, options: &#123;&#125;): : Observable&#60;ArrayBuffer&#62;;
+    get(url: string, options: &#123;&#125;): : Observable&#60;ArrayBuffer&#62;;
+    head(url: string, options: &#123;&#125;): : Observable&#60;ArrayBuffer&#62;;
+    jsonp(url: string, callBack: string): : Observable&#60;Object&#62;;
+    options(url: string, options: &#123;&#125;): : Observable&#60;ArrayBuffer&#62;;
+    patch(url: string, options: &#123;&#125;): : Observable&#60;ArrayBuffer&#62;;
+    post(url: string, options: &#123;&#125;): : Observable&#60;ArrayBuffer&#62;;
+    put(url: string, options: &#123;&#125;): : Observable&#60;ArrayBuffer&#62;;
+&#125;
+    </pre>
+  </div>
