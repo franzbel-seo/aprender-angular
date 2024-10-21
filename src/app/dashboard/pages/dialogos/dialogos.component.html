@@ -9,6 +9,7 @@
     width: '600px',
   <span class="bolder orange">&#125;</span>);
 </pre>
+<p>El método open retorna una instancia de <span class="bolder orange">MatDialogRef</span></p>
 <p>El objeto de configuracion tiene las siguientes propiedades:</p>
 <table>
   <thead>
@@ -141,4 +142,166 @@
 <h2>INTERFACES</h2>
 <h2>ALIAS DE TIPO</h2>
 <h2>CONSTANTES</h2>
+
+<h3>PASO 1: CREAR UN COMPONENTE DÍALOGO</h3>
+
+<code>ng g c dashboard/dialogs/HolaMundo   </code>
+
+<h3>PASO 2: SERVICIO EN EL COMPONENTE</h3>
+<pre>
+import &#123;Component, <span class="orange bolder">inject</span>&#125; from '&#64;angular/core';
+<span class="bolder orange">import &#123;MatDialog&#125; from "&#64;angular/material/dialog";</span>
+
+  &#64;Component(&#123;
+    selector: 'app-dialogos',
+    standalone: true,
+    imports: [],
+    templateUrl: './dialogos.component.html',
+    styleUrl: './dialogos.component.scss'
+    &#125;)
+  export class DialogosComponent &#123;
+  <span class="bolder orange">readonly dialog = inject(MatDialog);</span>
+&#125;
+</pre>
+
+
+<h3>PASO 3: ABRIR EL COMPONENTE DIALOGO</h3>
+<p>Usamos el servicio, el componente que se mostrara y un objeto de configuración</p>
+
+<table>
+  <thead>
+  <tr>
+    <th>Clase del componente padre</th>
+    <th>Plantilla del componente padre</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>
+      <pre>
+import &#123;Component, inject&#125; from '&#64;angular/core';
+import &#123;MatDialog&#125; from "&#64;angular/material/dialog";
+<span class="orange bolder">import &#123;HolaMundoComponent&#125; from "../../dialogs/hola-mundo/hola-mundo.component";</span>
+
+
+&#64;Component(&#123;
+  selector: 'app-dialogos',
+  standalone: true,
+  imports: [<span class="orange bolder">HolaMundoComponent</span>],
+  templateUrl: './dialogos.component.html',
+  styleUrl: './dialogos.component.scss'
+&#125;)
+
+export class DialogosComponent &#123;
+  readonly dialog = inject(MatDialog);
+  <span class="orange bolder">
+  openDialog()&#123;
+    let dialogRef = this.dialog.open(HolaMundoComponent, &#123;
+      height: '400px',
+      width: '600px',
+    &#125;)
+  &#125;
+  </span>
+&#125;
+</pre>
+    </td>
+    <td> <code>&#60;button (click)="openDialog()" 	&#62;Abrir&#60;/button	&#62;</code></td>
+  </tr>
+  </tbody>
+</table>
+<h3>PASO 4: ESTRUCTURAR EL CONTENIDO DEL COMPONENTE DÍALOGO</h3>
+<p>Tenemos varias directivas disponibles para hacer mas facil estructurar el contendio del dialogo</p>
+<table>
+  <thead>
+  <tr>
+    <th>Clase del componente cargado</th>
+    <th>Plantilla del componente cargado</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>
+      <pre>
+        import &#123; Component &#125; from '&#64;angular/core';
+        <span class="orange bolder">import &#123;MatDialogModule&#125; from "&#64;angular/material/dialog";</span>
+
+        &#64;Component(&#123;
+          selector: 'app-hola-mundo',
+          standalone: true,
+          imports: [<span class="bolder orange">MatDialogModule</span>],
+          templateUrl: './hola-mundo.component.html',
+          styleUrl: './hola-mundo.component.scss'
+        &#125;)
+        export class HolaMundoComponent &#123;
+
+        &#125;
+
+      </pre>
+    </td>
+    <td>
+      <pre>
+        &#60;h2 mat-dialog-title&#62;Este es el título&#60;/h2&#62;
+        &#60;mat-dialog-content&#62; Lorem ipsum dolor sit amet...&#60;/mat-dialog-content&#62;
+        &#60;mat-dialog-actions&#62;
+          &#60;button [mat-dialog-close]="true"&#62;CERRAR&#60;/button&#62;
+        &#60;/mat-dialog-actions&#62;
+
+      </pre>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<h3>COMPARTIR DATOS CON EL COMPONENTE DÍALOGO</h3>
+<table>
+  <thead>
+  <tr>
+    <th>Clase del componente</th>
+    <th>Clase del componente díalogo</th>
+    <th>Plantilla del componente díalogo</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>
+      <pre>
+   export class DialogosComponent &#123;
+      readonly dialog = inject(MatDialog);
+      openDialog()&#123;
+        let dialogRef = this.dialog.open(HolaMundoComponent, &#123;
+          height: '400px',
+          width: '600px',
+          <span class="orange bolder">data: &#123;id: 'abc123', name: 'John Doe'&#125;</span>
+        &#125;)
+      &#125;
+  &#125;
+        </pre>
+    </td>
+    <td>
+      <pre>
+        import &#123; Component &#125; from '&#64;angular/core';
+        import &#123;<span class="orange bolder">MAT_DIALOG_DATA</span>, MatDialogModule&#125; from "&#64;angular/material/dialog";
+
+        &#64;Component(&#123;
+          selector: 'app-hola-mundo',
+          standalone: true,
+          imports: [<span class="bolder orange">MatDialogModule</span>],
+          templateUrl: './hola-mundo.component.html',
+          styleUrl: './hola-mundo.component.scss'
+        &#125;)
+        export class HolaMundoComponent &#123;
+          <span class="bolder orange">constructor(
+            &#64;Inject(MAT_DIALOG_DATA) public data: &#123;id: string, name: string&#125;) &#123;
+            &#125;</span>
+        &#125;
+
+      </pre>
+    </td>
+    <td></td>
+  </tr>
+  </tbody>
+</table>
+<div>
+  <button (click)="openDialog()" >Abrir</button>
+</div>
+
 
